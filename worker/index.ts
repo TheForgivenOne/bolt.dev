@@ -1,5 +1,5 @@
 import { createFetchHandler } from '@remix-run/cloudflare';
-import type { AppLoadContext, EntryContext } from '@remix-run/cloudflare';
+import type { AppLoadContext } from '@remix-run/cloudflare';
 
 interface Env {
   RUNNING_IN_DOCKER: string;
@@ -30,12 +30,10 @@ export default {
 
     const handler = createFetchHandler({
       build,
-      mode: process.env.NODE_ENV || 'production',
+      mode: 'production',
       getLoadContext: () => ({ env }) as AppLoadContext,
     });
 
-    return handler(request, { env, waitUntil: ctx.waitUntil.bind(ctx), passThroughOnException: () => {} });
+    return handler(request);
   },
 };
-
-export {};
